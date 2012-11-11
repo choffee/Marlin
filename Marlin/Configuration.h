@@ -21,21 +21,26 @@
 //#define BAUDRATE 115200
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
-// Gen7 custom (Alfons3 Version) = 10 "https://github.com/Alfons3/Generation_7_Electronics"
-// Gen7 v1.1, v1.2 = 11
-// Gen7 v1.3 = 12
-// Gen7 v1.4 = 13
-// MEGA/RAMPS up to 1.2 = 3
-// RAMPS 1.3 = 33 (Power outputs: Extruder, Bed, Fan)
-// RAMPS 1.3 = 34 (Power outputs: Extruder0, Extruder1, Bed)
-// Gen6 = 5
-// Gen6 deluxe = 51
-// Sanguinololu 1.2 and above = 62
-// Melzi = 63
-// Ultimaker = 7
-// Teensylu = 8
-// Gen3+ =9
-// Megatronics =70
+// 10 = Gen7 custom (Alfons3 Version) "https://github.com/Alfons3/Generation_7_Electronics"
+// 11 = Gen7 v1.1, v1.2 = 11
+// 12 = Gen7 v1.3
+// 13 = Gen7 v1.4
+// 3  = MEGA/RAMPS up to 1.2 = 3
+// 33 = RAMPS 1.3 (Power outputs: Extruder, Bed, Fan)
+// 34 = RAMPS 1.3 (Power outputs: Extruder0, Extruder1, Bed)
+// 4  = Duemilanove w/ ATMega328P pin assignment
+// 5  = Gen6
+// 51 = Gen6 deluxe
+// 6  = Sanguinololu < 1.2
+// 62 = Sanguinololu 1.2 and above
+// 63 = Melzi
+// 7  = Ultimaker
+// 71 = Ultimaker (Older electronics. Pre 1.5.4. This is rare)
+// 8  = Teensylu
+// 9  = Gen3+
+// 70 = Megatronics
+// 90 = Alpha OMCA board
+// 91 = Final OMCA board
 
 #ifndef MOTHERBOARD
 #define MOTHERBOARD 33
@@ -301,12 +306,26 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 //#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
 //#define ULTIPANEL  //the ultipanel as on thingiverse
 
+// The RepRapDiscount Smart Controller
+// http://reprap.org/wiki/RepRapDiscount_Smart_Controller
+//#define REPRAP_DISCOUNT_SMART_CONTROLLER
 
-#ifdef ULTIMAKERCONTROLLER    //automatic expansion
+
+//automatic expansion
+#if defined(ULTIMAKERCONTROLLER) || defined(REPRAP_DISCOUNT_SMART_CONTROLLER)
  #define ULTIPANEL
  #define NEWPANEL
 #endif 
- 
+
+// Preheat Constants
+#define PLA_PREHEAT_HOTEND_TEMP 180 
+#define PLA_PREHEAT_HPB_TEMP 70
+#define PLA_PREHEAT_FAN_SPEED 255		// Insert Value between 0 and 255
+
+#define ABS_PREHEAT_HOTEND_TEMP 240
+#define ABS_PREHEAT_HPB_TEMP 100
+#define ABS_PREHEAT_FAN_SPEED 255		// Insert Value between 0 and 255
+
 
 #ifdef ULTIPANEL
 //  #define NEWPANEL  //enable this if you have a click-encoder panel
@@ -315,15 +334,6 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
   #define LCD_WIDTH 20
   #define LCD_HEIGHT 4
   
-// Preheat Constants
-  #define PLA_PREHEAT_HOTEND_TEMP 180 
-  #define PLA_PREHEAT_HPB_TEMP 70
-  #define PLA_PREHEAT_FAN_SPEED 255		// Insert Value between 0 and 255
-
-  #define ABS_PREHEAT_HOTEND_TEMP 240
-  #define ABS_PREHEAT_HPB_TEMP 100
-  #define ABS_PREHEAT_FAN_SPEED 255		// Insert Value between 0 and 255
-
 #else //no panel but just lcd 
   #ifdef ULTRA_LCD
     #define LCD_WIDTH 16
