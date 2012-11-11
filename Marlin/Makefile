@@ -37,19 +37,20 @@
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
 # This defined the board you are compiling for (see Configuration.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+HARDWARE_MOTHERBOARD ?= 33
 
 # Arduino source install directory, and version number
-ARDUINO_INSTALL_DIR  ?= ../../arduino-0022
-ARDUINO_VERSION      ?= 22
+#ARDUINO_INSTALL_DIR  ?= ../../arduino-0022
+ARDUINO_INSTALL_DIR  ?= /usr/share/arduino
+ARDUINO_VERSION      ?= 101
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
 AVR_TOOLS_PATH ?= 
 
 #Programmer configuration
-UPLOAD_RATE        ?= 115200
+UPLOAD_RATE        ?= 57600
 AVRDUDE_PROGRAMMER ?= arduino
-UPLOAD_PORT        ?= /dev/arduino
+UPLOAD_PORT        ?= /dev/ttyUSB0
 
 #Directory used to build files in, contains all the build files, from object files to the final hex file.
 BUILD_DIR          ?= applet
@@ -85,7 +86,7 @@ HARDWARE_VARIANT ?= arduino
 MCU              ?= atmega2560
 else ifeq  ($(HARDWARE_MOTHERBOARD),33)
 HARDWARE_VARIANT ?= arduino
-MCU              ?= atmega2560
+MCU              ?= atmega1280
 else ifeq  ($(HARDWARE_MOTHERBOARD),34)
 HARDWARE_VARIANT ?= arduino
 MCU              ?= atmega2560
@@ -178,9 +179,9 @@ VPATH += $(HARDWARE_SRC)
 VPATH += $(ARDUINO)
 VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidCrystal
 #TODO: Add the path to the hardware variant when using Arduino >= 100, and adjust the files required for compilation.
-#VPATH += $(ARDUINO_INSTALL_DIR)/hardware/arduino/variants/mega
+VPATH += $(ARDUINO_INSTALL_DIR)/hardware/arduino/variants/mega
 
-SRC = pins_arduino.c main.c wiring.c \
+SRC =  main.c wiring.c \
 	wiring_analog.c wiring_digital.c \
 	wiring_pulse.c \
 	wiring_shift.c WInterrupts.c
