@@ -80,8 +80,6 @@ long position[4];   //rescaled from extern when axis_steps_per_unit are changed 
 static float previous_speed[4]; // Speed of previous path line segment
 static float previous_nominal_speed; // Nominal speed of previous path line segment
 
-extern volatile int extrudemultiply; // Sets extrude multiply factor (in percent)
-
 #ifdef AUTOTEMP
 float autotemp_max=250;
 float autotemp_min=210;
@@ -103,12 +101,11 @@ volatile unsigned char block_buffer_tail;           // Index of the block to pro
 bool allow_cold_extrude=false;
 #endif
 #ifdef XY_FREQUENCY_LIMIT
+#define MAX_FREQ_TIME (1000000.0/XY_FREQUENCY_LIMIT)
 // Used for the frequency limit
 static unsigned char old_direction_bits = 0;               // Old direction bits. Used for speed calculations
-static long x_segment_time[3]={
-  0,0,0};                     // Segment times (in us). Used for speed calculations
-static long y_segment_time[3]={
-  0,0,0};
+static long x_segment_time[3]={MAX_FREQ_TIME + 1,0,0};     // Segment times (in us). Used for speed calculations
+static long y_segment_time[3]={MAX_FREQ_TIME + 1,0,0};
 #endif
 
 // Returns the index of the next block in the ring buffer
@@ -441,8 +438,7 @@ void check_axes_activity()
   unsigned char y_active = 0;  
   unsigned char z_active = 0;
   unsigned char e_active = 0;
-  unsigned char fan_speed = 0;
-  unsigned char tail_fan_speed = 0;
+  unsigned char tail_fan_speed = fanSpeed;
   block_t *block;
 
   if(block_buffer_tail != block_buffer_head)
@@ -456,17 +452,8 @@ void check_axes_activity()
       if(block->steps_y != 0) y_active++;
       if(block->steps_z != 0) z_active++;
       if(block->steps_e != 0) e_active++;
-      if(block->fan_speed != 0) fan_speed++;
       block_index = (block_index+1) & (BLOCK_BUFFER_SIZE - 1);
     }
-  }
-  else
-  {
-    #if FAN_PIN > -1
-    if (FanSpeed != 0){
-      analogWrite(FAN_PIN,FanSpeed); // If buffer is empty use current fan speed
-    }
-    #endif
   }
   if((DISABLE_X) && (x_active == 0)) disable_x();
   if((DISABLE_Y) && (y_active == 0)) disable_y();
@@ -478,16 +465,24 @@ void check_axes_activity()
     disable_e2(); 
   }
 #if FAN_PIN > -1
-  if((FanSpeed == 0) && (fan_speed ==0))
-  {
-    analogWrite(FAN_PIN, 0);
-  }
-
-  if (FanSpeed != 0 && tail_fan_speed !=0)
-  {
+  #ifndef FAN_SOFT_PWM
+    #ifdef FAN_KICKSTART_TIME
+      static unsigned long fan_kick_end;
+      if (tail_fan_speed) {
+        if (fan_kick_end == 0) {
+          // Just starting up fan - run at full power.
+          fan_kick_end = millis() + FAN_KICKSTART_TIME;
+          tail_fan_speed = 255;
+        } else if (fan_kick_end > millis())
+          // Fan still spinning up.
+          tail_fan_speed = 255;
+      } else {
+        fan_kick_end = 0;
+      }
+    #endif//FAN_KICKSTART_TIME
     analogWrite(FAN_PIN,tail_fan_speed);
-  }
-#endif
+  #endif//!FAN_SOFT_PWM
+#endif//FAN_PIN > -1
 #ifdef AUTOTEMP
   getHighESpeed();
 #endif
@@ -509,7 +504,7 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
   {
     manage_heater(); 
     manage_inactivity(); 
-    LCD_STATUS;
+    lcd_update();
   }
 
   // The target position of the tool in absolute steps
@@ -563,7 +558,7 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
     return; 
   }
 
-  block->fan_speed = FanSpeed;
+  block->fan_speed = fanSpeed;
 
   // Compute direction bits for this block 
   block->direction_bits = 0;
@@ -644,6 +639,9 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
     if (segment_time < minsegmenttime)
     { // buffer is draining, add extra time.  The amount of time added increases if the buffer is still emptied more.
       inverse_second=1000000.0/(segment_time+lround(2*(minsegmenttime-segment_time)/moves_queued));
+      #ifdef XY_FREQUENCY_LIMIT
+         segment_time = lround(1000000.0/inverse_second);
+      #endif
     }
   }
 #endif
@@ -666,11 +664,11 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
   // Max segement time in us.
 #ifdef XY_FREQUENCY_LIMIT
 #define MAX_FREQ_TIME (1000000.0/XY_FREQUENCY_LIMIT)
-
   // Check and limit the xy direction change frequency
   unsigned char direction_change = block->direction_bits ^ old_direction_bits;
   old_direction_bits = block->direction_bits;
-
+  segment_time = lround((float)segment_time / speed_factor);
+  
   if((direction_change & (1<<X_AXIS)) == 0)
   {
     x_segment_time[0] += segment_time;
