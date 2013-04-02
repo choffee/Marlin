@@ -3,8 +3,8 @@
 
 // NOTE: IF YOU CHANGE THIS FILE / MERGE THIS FILE WITH CHANGES
 //
-//   ==> ALWAYS TRY TO COMPILE MARLIN WITH/WITHOUT "ULTIPANEL" / "ULTRALCD" / "SDSUPPORT" #define IN "Configuration.h" 
-//   ==> ALSO TRY ALL AVAILABLE "LANGUAGE_CHOICE" OPTIONS
+//   ==&gt; ALWAYS TRY TO COMPILE MARLIN WITH/WITHOUT "ULTIPANEL" / "ULTRALCD" / "SDSUPPORT" #define IN "Configuration.h" 
+//   ==&gt; ALSO TRY ALL AVAILABLE "LANGUAGE_CHOICE" OPTIONS
 
 // Languages
 // 1  English
@@ -26,6 +26,9 @@
 #if MOTHERBOARD == 7 || MOTHERBOARD == 71
 	#define MACHINE_NAME "Ultimaker"
 	#define FIRMWARE_URL "http://firmware.ultimaker.com"
+#elif MOTHERBOARD == 80
+	#define MACHINE_NAME "Rumba"
+	#define FIRMWARE_URL "https://github.com/ErikZalm/Marlin/"
 #else
 	#define MACHINE_NAME "Mendel"
 	#define FIRMWARE_URL "http://www.mendel-parts.com"
@@ -141,6 +144,7 @@
 	#define MSG_END_FILE_LIST "End file list"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Invalid extruder "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Invalid extruder "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Invalid extruder "
 	#define MSG_ERR_NO_THERMISTORS "No thermistors - no temperature"
 	#define MSG_M109_INVALID_EXTRUDER "M109 Invalid extruder "
 	#define MSG_HEATING "Heating..."
@@ -164,6 +168,7 @@
 	#define MSG_M119_REPORT "Reporting endstop status"
 	#define MSG_ENDSTOP_HIT "TRIGGERED"
 	#define MSG_ENDSTOP_OPEN "open"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR "Cannot open subdir"
 	#define MSG_SD_INIT_FAIL "SD init fail"
@@ -297,6 +302,7 @@
 	#define MSG_END_FILE_LIST "Koniec listy plikow"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Niepoprawny ekstruder "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Niepoprawny ekstruder "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Niepoprawny ekstruder "
 	#define MSG_ERR_NO_THERMISTORS "Brak termistorow - brak temperatury :("
 	#define MSG_M109_INVALID_EXTRUDER "M109 Niepoprawny ekstruder "
 	#define MSG_HEATING "Nagrzewanie ekstrudera..."
@@ -320,6 +326,7 @@
 	#define MSG_M119_REPORT "Zgloszenie statusu wylacznikow krancowych"
 	#define MSG_ENDSTOP_HIT "WYZWOLONY"
 	#define MSG_ENDSTOP_OPEN "otwarty"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR "Nie mozna otworzyc podkatalogu"
 	#define MSG_SD_INIT_FAIL "Blad inicjalizacji karty SD"
@@ -457,6 +464,7 @@
 #define MSG_END_FILE_LIST "Fin de la liste de fichiers"
 #define MSG_M104_INVALID_EXTRUDER "M104 Extruder invalide"
 #define MSG_M105_INVALID_EXTRUDER "M105 Extruder invalide"
+#define MSG_M218_INVALID_EXTRUDER "M218 Extruder invalide"
 #define MSG_ERR_NO_THERMISTORS "Pas de thermistor, pas de temperature"
 #define MSG_M109_INVALID_EXTRUDER "M109 Extruder invalide "
 #define MSG_HEATING "En chauffe..."
@@ -480,6 +488,7 @@
 #define MSG_M119_REPORT "Affichage du status des fin de course"
 #define MSG_ENDSTOP_HIT "DECLENCHE"
 #define MSG_ENDSTOP_OPEN "OUVERT"
+#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 #define MSG_SD_CANT_OPEN_SUBDIR "Impossible d'ouvrir le sous-repertoire"
 #define MSG_SD_INIT_FAIL "Echec de l'initialisation de la SD"
@@ -615,6 +624,7 @@
 	#define MSG_END_FILE_LIST "End file list"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Invalid extruder "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Invalid extruder "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Invalid extruder "
 	#define MSG_ERR_NO_THERMISTORS "No thermistors - no temp"
 	#define MSG_M109_INVALID_EXTRUDER "M109 Invalid extruder "
 	#define MSG_HEATING "Heating..."
@@ -638,6 +648,7 @@
 	#define MSG_M119_REPORT "Reporting endstop status"
 	#define MSG_ENDSTOP_HIT "TRIGGERED"
 	#define MSG_ENDSTOP_OPEN "open"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR "Cannot open subdir"
 	#define MSG_SD_INIT_FAIL "SD init fail"
@@ -773,6 +784,7 @@
 #define MSG_END_FILE_LIST "Fin de la lista de archivos"
 #define MSG_M104_INVALID_EXTRUDER "M104 Extrusor Invalido "
 #define MSG_M105_INVALID_EXTRUDER "M105 Extrusor Invalido "
+#define MSG_M218_INVALID_EXTRUDER "M218 Extrusor Invalido "
 #define MSG_ERR_NO_THERMISTORS "No hay termistores - no temp"
 #define MSG_M109_INVALID_EXTRUDER "M109 Extrusor Invalido "
 #define MSG_HEATING "Calentando..."
@@ -795,6 +807,7 @@
 #define MSG_M119_REPORT "Comprobando fines de carrera."
 #define MSG_ENDSTOP_HIT "PULSADO"
 #define MSG_ENDSTOP_OPEN "abierto"
+#define MSG_HOTEND_OFFSET "Hotend offsets:"
         
 #define MSG_SD_CANT_OPEN_SUBDIR "No se pudo abrir la subcarpeta."
 #define MSG_SD_INIT_FAIL "Fallo al iniciar la SD"
@@ -924,6 +937,7 @@
 #define MSG_END_FILE_LIST					"Конец списка файлов"
 #define MSG_M104_INVALID_EXTRUDER			"M104 ошибка экструдера "
 #define MSG_M105_INVALID_EXTRUDER			"M105 ошибка экструдера "
+#define MSG_M218_INVALID_EXTRUDER			"M218 ошибка экструдера "
 #define MSG_ERR_NO_THERMISTORS				"Нет термистра - нет температуры"
 #define MSG_M109_INVALID_EXTRUDER			"M109 ошибка экструдера "
 #define MSG_HEATING							"Нагрев...  "
@@ -947,6 +961,7 @@
 #define MSG_M119_REPORT						"Статус концевиков"
 #define MSG_ENDSTOP_HIT						"Срабатывание концевика"
 #define MSG_ENDSTOP_OPEN					"Концевик освобожден"
+#define MSG_HOTEND_OFFSET					"Hotend offsets:"
 #define MSG_SD_CANT_OPEN_SUBDIR				"Не открыть папку"
 #define MSG_SD_INIT_FAIL					"Ошибка инициализации SD"
 #define MSG_SD_VOL_INIT_FAIL				"Ошибка инициализации раздела"
@@ -1078,6 +1093,7 @@
 	#define MSG_END_FILE_LIST        "Fine Lista File"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Estrusore non valido "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Estrusore non valido "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Estrusore non valido "
 	#define MSG_ERR_NO_THERMISTORS   "Nessun Termistore - nessuna temperatura"
 	#define MSG_M109_INVALID_EXTRUDER "M109 Estrusore non valido "
 	#define MSG_HEATING              "Riscaldamento..."
@@ -1101,6 +1117,7 @@
 	#define MSG_M119_REPORT          "Segnalazione stato degli endstop"
 	#define MSG_ENDSTOP_HIT          "INNESCATO"
 	#define MSG_ENDSTOP_OPEN         "aperto"
+	#define MSG_HOTEND_OFFSET        "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR  "Impossibile aprire sottocartella"
 	#define MSG_SD_INIT_FAIL         "Fallita Inizializzazione SD"
@@ -1240,6 +1257,7 @@
 	#define MSG_END_FILE_LIST "Fim da lista de arquivos"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Extrusor inválido "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Extrusor inválido "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Extrusor inválido "
 	#define MSG_ERR_NO_THERMISTORS "Nao ha termistor - no temp"
 	#define MSG_M109_INVALID_EXTRUDER "M109 Extrusor inválido "
 	#define MSG_HEATING "Aquecendo..."
@@ -1263,6 +1281,7 @@
 	#define MSG_M119_REPORT "Relatando estado do ponto final"
 	#define MSG_ENDSTOP_HIT "PULSADO"
 	#define MSG_ENDSTOP_OPEN "Aberto"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR "Nao pode abrir sub diretorio"
 	#define MSG_SD_INIT_FAIL "Falha ao iniciar SD"
@@ -1397,6 +1416,7 @@
 	#define MSG_END_FILE_LIST "Tiedostolistauksen loppu"
 	#define MSG_M104_INVALID_EXTRUDER "M104 Virheellinen suutin "
 	#define MSG_M105_INVALID_EXTRUDER "M105 Virheellinen suutin "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Virheellinen suutin "
 	#define MSG_ERR_NO_THERMISTORS "Ei termistoreja - ei lampotiloja"
 	#define MSG_M109_INVALID_EXTRUDER "M109 Virheellinen suutin "
 	#define MSG_HEATING "Lammitan..."
@@ -1420,6 +1440,7 @@
 	#define MSG_M119_REPORT "Rajakytkimien tilaraportti"
 	#define MSG_ENDSTOP_HIT "AKTIIVISENA"
 	#define MSG_ENDSTOP_OPEN "avoinna"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
 
 	#define MSG_SD_CANT_OPEN_SUBDIR "Alihakemistoa ei voitu avata"
 	#define MSG_SD_INIT_FAIL "SD alustus epaonnistui"
@@ -1444,3 +1465,4 @@
 
 #endif
 #endif // ifndef LANGUAGE_H
+
