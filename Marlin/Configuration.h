@@ -326,6 +326,7 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 //#define ULTRA_LCD  //general lcd support, also 16x2
 //#define DOGLCD	// Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
 //#define SDSUPPORT // Enable SD Card Support in Hardware Console
+//#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
 
 //#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
 //#define ULTIPANEL  //the ultipanel as on thingiverse
@@ -338,7 +339,19 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 // http://reprap.org/wiki/RAMPS_1.3/1.4_GADGETS3D_Shield_with_Panel
 //#define G3D_PANEL
 
+// The RepRapDiscount FULL GRAPHIC Smart Controller (quadratic white PCB)
+// http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
+//
+// ==> REMEMBER TO INSTALL U8glib to your ARDUINO library folder: http://code.google.com/p/u8glib/wiki/u8glib
+//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+
 //automatic expansion
+#if defined (REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER)
+ #define DOGLCD
+ #define U8GLIB_ST7920
+ #define REPRAP_DISCOUNT_SMART_CONTROLLER
+#endif
+
 #if defined(ULTIMAKERCONTROLLER) || defined(REPRAP_DISCOUNT_SMART_CONTROLLER) || defined(G3D_PANEL)
  #define ULTIPANEL
  #define NEWPANEL
