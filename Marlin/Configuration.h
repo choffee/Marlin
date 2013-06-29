@@ -348,7 +348,8 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 // default settings
 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {80.4094,80.4094,2927.1862,771.58}  // default steps per unit for ultimaker 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {80.4094,80.4094,2927.1862,574.80}  // default steps per unit for ultimaker 
+//#define DEFAULT_AXIS_STEPS_PER_UNIT   {80.4094,80.4094,2927.1862,574.80}  // default steps per unit for ultimaker 
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {80.4094,80.4094,2534.3603,574.80}  // default steps per unit for ultimaker 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200*8/3,760*1.1}  // default steps per unit for ultimaker 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200*8/3,760*1.1}  // default steps per unit for ultimaker 
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 5, 25}    // (mm/sec)    
