@@ -13,7 +13,7 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
 #endif
 
 ////////////////////////////////////
-// Setup button and encode mappings for each panel (into 'buttons' variable)
+// Setup button and encode mappings for each panel (into 'buttons' variable
 //
 // This is just to map common functions (across different panels) onto the same 
 // macro name. The mapping is independent of whether the button is directly connected or 
@@ -180,6 +180,11 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
   #include <LiquidTWI2.h>
   #define LCD_CLASS LiquidTWI2
   LCD_CLASS lcd(LCD_I2C_ADDRESS);  
+
+#elif defined(LCD_I2C_TYPE_PCA8574)
+    #include <LiquidCrystal_I2C.h>
+    #define LCD_CLASS LiquidCrystal_I2C
+    LCD_CLASS lcd(LCD_I2C_ADDRESS, LCD_WIDTH, LCD_HEIGHT);
   
 #else
   // Standard directly connected LCD implementations
@@ -305,6 +310,10 @@ static void lcd_implementation_init()
 #elif defined(LCD_I2C_TYPE_MCP23008)
     lcd.setMCPType(LTI_TYPE_MCP23008);
     lcd.begin(LCD_WIDTH, LCD_HEIGHT);
+
+#elif defined(LCD_I2C_TYPE_PCA8574)
+      lcd.init();
+      lcd.backlight();
     
 #else
     lcd.begin(LCD_WIDTH, LCD_HEIGHT);
@@ -503,7 +512,7 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
   #endif
     lcd.setCursor(0, row);
     lcd.print(pre_char);
-    while((c = pgm_read_byte(pstr)) != '\0')
+    while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
     {
         lcd.print(c);
         pstr++;
@@ -525,7 +534,7 @@ static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const 
   #endif
     lcd.setCursor(0, row);
     lcd.print(pre_char);
-    while((c = pgm_read_byte(pstr)) != '\0')
+    while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
     {
         lcd.print(c);
         pstr++;
@@ -547,7 +556,7 @@ static void lcd_implementation_drawmenu_setting_edit_generic_P(uint8_t row, cons
   #endif
     lcd.setCursor(0, row);
     lcd.print(pre_char);
-    while((c = pgm_read_byte(pstr)) != '\0')
+    while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
     {
         lcd.print(c);
         pstr++;
@@ -617,7 +626,7 @@ static void lcd_implementation_drawmenu_sdfile_selected(uint8_t row, const char*
         filename = longFilename;
         longFilename[LCD_WIDTH-1] = '\0';
     }
-    while((c = *filename) != '\0')
+    while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
         filename++;
@@ -637,7 +646,7 @@ static void lcd_implementation_drawmenu_sdfile(uint8_t row, const char* pstr, co
         filename = longFilename;
         longFilename[LCD_WIDTH-1] = '\0';
     }
-    while((c = *filename) != '\0')
+    while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
         filename++;
@@ -658,7 +667,7 @@ static void lcd_implementation_drawmenu_sddirectory_selected(uint8_t row, const 
         filename = longFilename;
         longFilename[LCD_WIDTH-2] = '\0';
     }
-    while((c = *filename) != '\0')
+    while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
         filename++;
@@ -679,7 +688,7 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
         filename = longFilename;
         longFilename[LCD_WIDTH-2] = '\0';
     }
-    while((c = *filename) != '\0')
+    while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
         filename++;
@@ -706,9 +715,9 @@ static void lcd_implementation_quick_feedback()
     for(int8_t i=0;i<10;i++)
     {
       WRITE(BEEPER,HIGH);
-      delay(3);
+      delayMicroseconds(100);
       WRITE(BEEPER,LOW);
-      delay(3);
+      delayMicroseconds(100);
     }
 #endif
 }

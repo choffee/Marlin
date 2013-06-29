@@ -33,11 +33,11 @@
 #define LCD_CLICKED (buttons&EN_C)
 #endif
 
-// CHANGE_DE begin ***
-#include <U8glib.h>	// DE_U8glib
+#include <U8glib.h>
 #include "DOGMbitmaps.h"
 #include "dogm_font_data_marlin.h"
 #include "ultralcd.h"
+#include "ultralcd_st7920_u8glib_rrd.h"
 
 
 /* Russian language not supported yet, needs custom font
@@ -74,11 +74,10 @@
 
 #define FONT_STATUSMENU	u8g_font_6x9
 
-
 // LCD selection
 #ifdef U8GLIB_ST7920
-// SPI Com: SCK = en = (D4), MOSI = rw = (RS), CS = di = (ENABLE)
-U8GLIB_ST7920_128X64_1X u8g(LCD_PINS_D4, LCD_PINS_ENABLE, LCD_PINS_RS);
+//U8GLIB_ST7920_128X64_RRD u8g(0,0,0);
+U8GLIB_ST7920_128X64_RRD u8g(0);
 #else
 U8GLIB_DOGM128 u8g(DOGLCD_CS, DOGLCD_A0);	// HW-SPI Com: CS, A0
 #endif
@@ -101,11 +100,11 @@ static void lcd_implementation_init()
 	u8g.setRot90();	// Rotate screen by 90°
 #endif
 
-#ifdef LCD_SCREEN_ROT_180;
+#ifdef LCD_SCREEN_ROT_180
 	u8g.setRot180();	// Rotate screen by 180°
 #endif
 
-#ifdef LCD_SCREEN_ROT_270;
+#ifdef LCD_SCREEN_ROT_270
 	u8g.setRot270();	// Rotate screen by 270°
 #endif
 
